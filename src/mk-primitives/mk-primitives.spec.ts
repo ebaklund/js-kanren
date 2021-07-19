@@ -4,15 +4,13 @@ import * as chaiAsPromised from 'chai-as-promised';
 
 chai.use(chaiAsPromised);
 
-import * as mk from './mini-kanren';
+import * as mk from '.';
 
 const { expect } = chai;
 const given = describe;
 const when = describe;
 
-const N = 20000000;
-
-describe ('js-kanren type recognition', () => {
+describe ('mk-primitives', () => {
   given ('an object', () => {
     when ('checking its type', () => {
       it ('recognizes strings', () => {

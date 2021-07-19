@@ -10,11 +10,11 @@ export function isNumber(u: unknown): boolean {
 }
 
 export function isFunction(u: unknown): boolean {
-  return Object.prototype.toString.call(u) === '[object Function]';
+  return u instanceof Function;
 }
 
 export function isArray(u: unknown): boolean {
-  return Object.prototype.toString.call(u) === '[object Array]';
+  return u instanceof Array;
 }
 
 export function isObject(u: unknown): boolean {
@@ -27,4 +27,11 @@ export function isNull(u: unknown): boolean {
 
 export function isUndefined(u: unknown): boolean {
   return u === undefined;
+}
+
+
+// Unification
+
+export function walk(v: unknown, s: Array<unknown>): unknown {
+
 }
