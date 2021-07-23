@@ -28,10 +28,3 @@ export function isNull(u: unknown): boolean {
 export function isUndefined(u: unknown): boolean {
   return u === undefined;
 }
-
-
-// Unification
-
-export function walk(v: unknown, s: Array<unknown>): unknown {
-
-}
