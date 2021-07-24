@@ -4,7 +4,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 
 chai.use(chaiAsPromised);
 
-import * as mk from '..';
+import { Subst, Var } from '..';
 
 const { expect } = chai;
 const given = describe;
@@ -12,20 +12,20 @@ const when = describe;
 
 describe ('mk-subs', () => {
   given ('a substitution', () => {
-    let s: mk.Subst;
+    let s: Subst;
 
     beforeEach(() => {
-      s = new mk.Subst();
+      s = new Subst();
     });
 
     when ('checking fresh', () => {
       it ('returns true if fresh', () => {
-        const v: mk.Var = s.getFresh();
+        const v: Var = s.getFresh();
         expect(s.isFresh(v)).to.be.true;
       });
 
       it ('returns false if not fresh', () => {
-        const v: mk.Var = s.getFresh();
+        const v: Var = s.getFresh();
         expect(s.ext(v, 22)).to.be.true;
         expect(s.isFresh(v)).to.be.false;
       });
@@ -33,8 +33,8 @@ describe ('mk-subs', () => {
 
     when ('checking occurs', () => {
       it ('returns true if variable occurs', () => {
-        const v1: mk.Var = s.getFresh();
-        const v2: mk.Var = s.getFresh();
+        const v1: Var = s.getFresh();
+        const v2: Var = s.getFresh();
         s.ext(v2, v1);
 
         expect(s.occurs(v1, v1)).to.equal(true);
@@ -48,8 +48,8 @@ describe ('mk-subs', () => {
       });
 
       it ('returns false if variable not occurs', () => {
-        const v1: mk.Var = s.getFresh();
-        const v2: mk.Var = s.getFresh();
+        const v1: Var = s.getFresh();
+        const v2: Var = s.getFresh();
 
         expect(s.occurs(v1, 33)).to.equal(false);
         expect(s.occurs(v1, v2)).to.equal(false);
@@ -64,8 +64,8 @@ describe ('mk-subs', () => {
 
     when ('extending substitution', () => {
       it ('fails if variable occurs', () => {
-        const v1: mk.Var = s.getFresh();
-        const v2: mk.Var = s.getFresh();
+        const v1: Var = s.getFresh();
+        const v2: Var = s.getFresh();
         s.ext(v2, v1);
 
         expect(s.ext(v1, v1)).to.equal(false);
@@ -79,8 +79,8 @@ describe ('mk-subs', () => {
       });
 
       it ('succeeds if variable occurs', () => {
-        const v1: mk.Var = s.getFresh();
-        const v2: mk.Var = s.getFresh();
+        const v1: Var = s.getFresh();
+        const v2: Var = s.getFresh();
 
         expect(s.ext(v1, 33)).to.equal(true);
         expect(s.ext(v1, v2)).to.equal(true);

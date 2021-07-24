@@ -1,6 +1,6 @@
 
-import { Var, isVar } from '../mk-var';
-import { isArray } from '../mk-unknown';
+import { Var, isVar } from '../var';
+import { isArray } from '../unknown';
 
 export class Subst {
 
