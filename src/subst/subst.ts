@@ -52,4 +52,32 @@ export class Subst {
 
     return true;
   }
+
+  unify (u1: unknown, u2: unknown): boolean {
+    u1 = this.walk(u1);
+    u2 = this.walk(u2);
+
+    if (u1 === u2)
+      return true;
+
+    if (isVar(u1))
+      return this.ext(u1 as Var, u2);
+
+    if (isVar(u2))
+      return this.ext(u2 as Var, u1);
+
+    if (!isArray(u1))
+      return false;
+
+    if (!isArray(u2))
+      return false;
+
+    const a1 = u1 as unknown[];
+    const a2 = u2 as unknown[];
+
+    if (a1.length !== a2.length)
+      return false;
+
+    return a1.every((_, i) => this.unify(a1[i], a2[i]));
+  }
 }

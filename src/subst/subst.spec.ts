@@ -10,7 +10,7 @@ const { expect } = chai;
 const given = describe;
 const when = describe;
 
-describe ('mk-subs', () => {
+describe ('substitution', () => {
   given ('a substitution', () => {
     let s: Subst;
 
@@ -90,6 +90,82 @@ describe ('mk-subs', () => {
 
         expect(s.ext(v1, [33, 11, 22])).to.equal(true);
         expect(s.ext(v1, [33, v2, 22])).to.equal(true);
+      });
+    });
+
+    when ('doing a unification', () => {
+      it ('returns true if values are equal', () => {
+        const v = s.getFresh();
+        expect(s.unify(1, 1)).to.equal(true);
+        expect(s.unify(v, v)).to.equal(true);
+      });
+
+      it ('returns true if value 1 is none-occurring variable', () => {
+        {
+          const v1 = s.getFresh();
+          expect(s.unify(v1, 1)).to.equal(true);
+        }
+        {
+          const v1 = s.getFresh();
+          const v2 = s.getFresh();
+          expect(s.unify(v1, v2)).to.equal(true);
+        }
+        {
+          const v1 = s.getFresh();
+          const v2 = s.getFresh();
+          expect(s.unify(v1, [v2])).to.equal(true);
+        }
+      });
+
+      it ('returns false if value 1 is occurring variable', () => {
+        const v1 = s.getFresh();
+        expect(s.unify(v1, [v1])).to.equal(false);
+      });
+
+      it ('returns true if value 2 is none-occurring variable', () => {
+        {
+          const v2 = s.getFresh();
+          expect(s.unify(1, v2)).to.equal(true);
+        }
+        {
+          const v1 = s.getFresh();
+          const v2 = s.getFresh();
+          expect(s.unify(v1, v2)).to.equal(true);
+        }
+        {
+          const v1 = s.getFresh();
+          const v2 = s.getFresh();
+          expect(s.unify([v1], v2)).to.equal(true);
+        }
+      });
+
+      it ('returns false if value 2 is occurring variable', () => {
+        const v2 = s.getFresh();
+        expect(s.unify([v2], v2)).to.equal(false);
+      });
+
+      it ('returns false if value 1 is not an array', () => {
+        expect(s.unify(1, [2])).to.equal(false);
+      });
+
+      it ('returns false if value 2 is not an array', () => {
+        expect(s.unify([1], 2)).to.equal(false);
+      });
+
+      it ('returns false if values not same length', () => {
+        expect(s.unify([1], [])).to.equal(false);
+      });
+
+      it ('returns true if values are same length', () => {
+        expect(s.unify([], [])).to.equal(true);
+      });
+
+      it ('returns true if arrays have equal elements', () => {
+        expect(s.unify([1, 2, 4], [1, 2, 4])).to.equal(true);
+      });
+
+      it ('returns false if arrays have differing elements', () => {
+        expect(s.unify([1, 2, 4], [1, 2, 5])).to.equal(false);
       });
     });
   });
