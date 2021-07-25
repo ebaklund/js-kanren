@@ -13,15 +13,15 @@ export class Subst {
     this._arr = [];
   }
 
+  isFresh(v: Var) : boolean {
+    return this._arr[v.idx] === null;
+  }
+
   getFresh (): Var {
     const v: Var = new Var(this._arr.length);
     this._arr.push(null);
 
     return v;
-  }
-
-  isFresh(v: Var) : boolean {
-    return this._arr[v.idx] === null;
   }
 
   walk (u: unknown): unknown {
