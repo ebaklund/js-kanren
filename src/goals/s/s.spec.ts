@@ -4,7 +4,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 
 chai.use(chaiAsPromised);
 
-import { $u } from '..';
+import { $s } from '..';
 import { Subst } from '../../internal';
 
 const { expect } = chai;
@@ -15,8 +15,7 @@ describe ('success', () => {
   given ('a success function', () => {
     when ('applied on a Subst', () => {
       it ('returns non-empty Stream', () => {
-        const stream = $u()(new Subst());
-        expect(stream.isEmpty()).to.equal(false);
+        expect($s.eval(new Subst()).isEmpty()).to.equal(false);
       });
     });
   });
